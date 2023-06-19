@@ -4,5 +4,18 @@ const friendSchema = new Schema({
   name: String,
   recs: Array,
 });
+const theModel = model("Friend", friendSchema);
+module.exports = theModel;
 
-module.exports = model("Friend", friendSchema);
+// Friend.find({})
+//   .exec()
+//   .then((collection) => {
+//     if (collection.length === 0) {
+//       return Friend.insertMany([
+//         { name: "Misael" },
+//         { name: "Ralph" },
+//         { name: "Shawtity" },
+//       ]);
+//     }
+//     console.log("Already populated");
+//   });
