@@ -8,7 +8,8 @@ module.exports = gql`
   }
 
   input AnimeInput {
-    name: String
+    title: String
+    description: String
   }
 
   input FriendInput {
@@ -20,7 +21,7 @@ module.exports = gql`
   }
 
   type Query {
-    getFriend(ID: ID!): Friend!
+    getFriend(ID: ID!): Friend
     getBoys(amount: Int): [Friend]
   }
 

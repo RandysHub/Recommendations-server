@@ -1,9 +1,21 @@
-const { Friend } = require("../models/Friend");
+const Friend = require("../models/Friend");
 const mongoose = require("mongoose");
 const resolvers = {
   Query: {
     async getFriend(_, { ID }) {
-      return await Friend.findById(ID);
+      // return await Friend.find();
+      return Friend.find({})
+        .exec()
+        .then((collection) => {
+          if (collection.length === 0) {
+            return Friend.insertMany([
+              { name: "Misael" },
+              { name: "Ralph" },
+              { name: "Shawtity" },
+            ]);
+          }
+          console.log("Already populated");
+        });
     },
     async getBoys(_, { amount }) {
       return await Friend.find().sort({ ID: 1 }).limit(amount);
