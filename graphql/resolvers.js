@@ -1,21 +1,8 @@
 const Friend = require("../models/Friend");
-const mongoose = require("mongoose");
 const resolvers = {
   Query: {
-    async getFriend(_, { ID }) {
-      // return await Friend.find();
-      return Friend.find({})
-        .exec()
-        .then((collection) => {
-          if (collection.length === 0) {
-            return Friend.insertMany([
-              { name: "Misael" },
-              { name: "Ralph" },
-              { name: "Shawtity" },
-            ]);
-          }
-          console.log("Already populated");
-        });
+    async getFriend(_, { name }) {
+      return await Friend.findOne({ name });
     },
     async getBoys(_, { amount }) {
       return await Friend.find().sort({ ID: 1 }).limit(amount);
@@ -35,6 +22,16 @@ const resolvers = {
         ...res._doc,
         // don't use ._doc, use .toObject method - Guy in YouTube comments
       };
+    },
+    async deleteFriend(_, { ID }) {
+      const wasDeleted = (await Friend.deleteOne({ _id: ID })).deletedCount;
+      //1 if something was deleted
+      return wasDeleted;
+    },
+    async editFriend(_, { ID, friendInput: { name } }) {
+      const wasEdited = await Friend.updateOne({ _id: ID }, { name: name });
+      //1 if something was edited
+      return wasEdited;
     },
   },
 };
